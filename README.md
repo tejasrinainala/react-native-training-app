@@ -6,7 +6,6 @@ Fix: Use npx expo start --dev-client, keep Metro bundler running. Avoid repeated
 
 2. Expo SecureStore not compatible with Clerk's TokenCache
 Error: Type missing getToken, saveToken
-
 Fix:
 export const tokenCache = {
   getToken: SecureStore.getItemAsync,
@@ -67,19 +66,47 @@ Fix: Ensure Clerk’s tokenCache and SecureStore integration are fully working i
 Fix: Access route param correctly using:
 const { phone } = useLocalSearchParams();
 
+17.expo-secure-store version mismatch with Clerk TokenCache
+Error:
+Type 'typeof import("expo-secure-store")' is missing properties from type 'TokenCache': getToken, saveToken
+Fix:
+
+Implement a wrapper manually in tokenCache.ts:
+export const tokenCache: TokenCache = {
+  getToken: SecureStore.getItemAsync,
+  saveToken: SecureStore.setItemAsync,
+};
+Also ensure it's installed correctly:
+npx expo install expo-secure-store
+
+18. Clerk version not compatible with Expo Router (hooks or token persistence breaking
+Error: Unexpected behavior with useSignUp, useUser, setActive, and routing.
+
+Fix:
+
+Use the latest stable versions:
+npm install @clerk/clerk-expo@latest
+Avoid conflicts with incompatible router hooks by upgrading expo-router to match Expo SDK.
+
+19. expo-router version mismatch or layout not loading
+Error: Layout doesn’t load, routing doesn’t work properly
+
+Fix:
+Make sure you have expo-router installed with correct Expo SDK support (e.g., SDK 50+)
+npm install expo-router@latest
+
+20. Expo SDK mismatches causing runtime errors
+Date: June 19–21
+
+Issue: Random runtime errors, compatibility issues when running on iOS simulator
+
+Fix:
+
+Sync versions in package.json with your installed Expo SDK:
+npx expo install
+Use this to regenerate package-lock.json:
+rm -rf node_modules package-lock.json && npm install
 
 
 
 
-
-
-
-
-
-
-
-Tools
-
-
-
-ChatGPT can make mistakes. Check importan
