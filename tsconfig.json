@@ -1,0 +1,18 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "jsx": "react-native",
+    "strict": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
+    // ✅ No "types" key here, so no implicit type dependencies
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "../tokenCache.ts"
+  ]
+}
